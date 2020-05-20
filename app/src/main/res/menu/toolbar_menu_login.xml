@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/toogleMode"
+        android:icon="@drawable/ic_brightness_medium_black_24dp"
+        android:title="toogle_darkmode"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/info"
+        android:icon="@drawable/ic_info_outline"
+        android:title="Information" />
+
+</menu>
