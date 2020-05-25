@@ -31,6 +31,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
     Button btn_start;
     Button btn_stop;
     Button btn_reset;
+    Button btn_save;
 
     SensorManager sensorManager;
 
@@ -38,7 +39,10 @@ public class SensorActivity extends Fragment implements SensorEventListener {
     private int seconds = 0;
     private boolean isRun;
     private boolean wasRun;
-    float currentValue, newValue;
+    float currentValue, newValue, actualSteps;
+    private boolean startButtonClicked = false;
+    private boolean stopButtonClicked = false;
+    private String saveTime;
 
 
     private double MagnitudePrevious = 0;
@@ -54,12 +58,15 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         tv_timer = (TextView)v.findViewById(R.id.tv_time);
         btn_start = (Button)v.findViewById(R.id.startBtn);
         btn_stop = (Button)v.findViewById(R.id.stopBtn);
+        btn_save = (Button)v.findViewById(R.id.saveBtn);
         wasRun = isRun;
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                stopButtonClicked = true;
                 isRun = false;
                 sensorManager.unregisterListener(SensorActivity.this);
+
             }
         });
 
@@ -72,6 +79,32 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                 tv_steps.setText("0");
                 tv_distance.setText("0");
                 sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+            }
+        });
+
+        btn_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startButtonClicked = true;
+                isRun = true;
+                running = true;
+                Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+
+                if (countSensor != null){
+                    sensorManager.registerListener(SensorActivity.this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
+                } else {
+                    //  sensorManager.registerListener(SensorActivity.this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
+                    //Toast.makeText(this, "Sensor not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_steps.setText(String.valueOf(actualSteps));
+                System.out.println(actualSteps);
+                System.out.println();
             }
         });
 
@@ -101,22 +134,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         if (wasRun) {
             isRun = true;
         }
-        btn_start.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               /*SharedPreferences sharedPreferences = SensorActivity.this.getActivity().getPreferences(Context.MODE_PRIVATE);
-               stepCount = sharedPreferences.getInt("stepCount", 0);*/
-               isRun = true;
-               running = true;
-               Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-               if (countSensor != null){
-                   sensorManager.registerListener(SensorActivity.this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
-               } else {
-                 //  sensorManager.registerListener(SensorActivity.this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
-                   //Toast.makeText(this, "Sensor not found", Toast.LENGTH_SHORT).show();
-              }
-           }
-       });
+
     }
 
     @Override
@@ -128,17 +146,26 @@ public class SensorActivity extends Fragment implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        float i = event.values[0];
+        if (startButtonClicked) {
 
-        currentValue = currentValue +  i;
+            currentValue = event.values[0];
 
-        newValue = currentValue - currentValue;
-        float distance = (float)(i*78)/(float)100000;
+            float distance = (float) (currentValue * 78) / (float) 100000;
 
-        if (running){
+            if (running) {
 
-            tv_steps.setText(String.valueOf(i));
-            tv_distance.setText(String.valueOf(distance) + " km");
+                //tv_steps.setText(String.valueOf(currentValue));
+                tv_distance.setText(String.valueOf(distance) + " km");
+            }
+            startButtonClicked = false;
+        }
+        if (stopButtonClicked){
+            newValue = event.values[0];
+            actualSteps = newValue - currentValue;
+            startButtonClicked = false;
+
+
+
         }
     }
 
@@ -176,7 +203,8 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                         .format(Locale.getDefault(),
                                 "%d:%02d:%02d", hours,
                                 minutes, secs);
-                tv_timer.setText(time);
+                saveTime = time;
+                tv_timer.setText(saveTime);
 
                 if (isRun) {
                     seconds++;
