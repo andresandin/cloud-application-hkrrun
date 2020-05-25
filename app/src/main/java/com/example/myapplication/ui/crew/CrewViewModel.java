@@ -1,16 +1,16 @@
-package com.example.myapplication.ui.gallery;
+package com.example.myapplication.ui.crew;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class CrewViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public CrewViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("Crew behind HKR Run");
     }
 
     public LiveData<String> getText() {
