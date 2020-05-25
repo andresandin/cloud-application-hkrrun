@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,25 +22,41 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.data.ClientInformation;
+import com.example.myapplication.server.RequestSaveWorkout;
+import com.example.myapplication.server.ResponseSaveWorkout;
+import com.example.myapplication.server.RestAPICommunication;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.myapplication.server.ServerData.BASE_URL;
+
+
 import java.util.Locale;
 
 public class SensorActivity extends Fragment implements SensorEventListener {
 
-    TextView tv_steps;
-    TextView tv_distance;
-    TextView tv_timer;
-    Button btn_start;
-    Button btn_stop;
-    Button btn_reset;
-    Button btn_save;
+    private static final String TAG = "SensorActivity";
+    
+    private TextView tv_steps;
+    private TextView tv_distance;
+    private TextView tv_timer;
+    private Button btn_start;
+    private Button btn_stop;
+    private Button btn_reset;
+    private Button btn_save;
 
-    SensorManager sensorManager;
+    private SensorManager sensorManager;
 
-    boolean running = false;
+    private boolean running = false;
     private int seconds = 0;
     private boolean isRun;
     private boolean wasRun;
-    float currentValue, newValue, actualSteps;
+    private float currentValue, newValue, actualSteps;
     private boolean startButtonClicked = false;
     private boolean stopButtonClicked = false;
     private String saveTime;
@@ -47,6 +64,8 @@ public class SensorActivity extends Fragment implements SensorEventListener {
 
     private double MagnitudePrevious = 0;
     private Integer stepCount = 0;
+
+    private RestAPICommunication mRestApiCommunicator;
 
     @Nullable
     @Override
@@ -59,6 +78,13 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         btn_start = (Button)v.findViewById(R.id.startBtn);
         btn_stop = (Button)v.findViewById(R.id.stopBtn);
         btn_save = (Button)v.findViewById(R.id.saveBtn);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        mRestApiCommunicator = retrofit.create(RestAPICommunication.class);
+
         wasRun = isRun;
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +131,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                 tv_steps.setText(String.valueOf(actualSteps));
                 System.out.println(actualSteps);
                 System.out.println();
+                saveWorkout();
             }
         });
 
@@ -213,5 +240,53 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                 handler.postDelayed(this, 1000);
             }
         });
+    }
+
+    private void saveWorkout(){
+        Call<ResponseSaveWorkout> call = mRestApiCommunicator.saveWorkout(
+                buildRequest(), ClientInformation.getInstance().getToken());
+        call.enqueue(new Callback<ResponseSaveWorkout>() {
+            @Override
+            public void onResponse(Call<ResponseSaveWorkout> call, Response<ResponseSaveWorkout> response) {
+                ResponseSaveWorkout responseSaveWorkout = response.body();
+                if( responseSaveWorkout != null){
+                    if( responseSaveWorkout.getStatus().equals("success")) {
+                        Log.d(TAG, "onResponse: status: " + responseSaveWorkout.getStatus());
+                        Log.d(TAG, "onResponse: message: " + responseSaveWorkout.getMessage());
+
+                        //Intent intent = new Intent(LogInFragment.this, MainActivity.class);
+
+                        //startActivity(intent);
+                    }
+                    else{
+                        makeToast("save workout failed");
+                        Log.d(TAG,response.toString());
+                    }
+                }
+                else
+                    makeToast("save workout failed");
+                Log.d(TAG,response.toString());
+                //btnLock();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSaveWorkout> call, Throwable t) {
+                makeToast(t.getMessage());
+                // btnLock();
+            }
+        });
+    }
+
+    private RequestSaveWorkout buildRequest(){
+        //return new RequestSaveWorkout(
+        //       Integer.parseInt(String.valueOf(actualSteps)),
+         //       saveTime);
+
+        //For testing
+        return new RequestSaveWorkout(2000, "20:20");
+    }
+
+    private void makeToast(String msg){
+        Toast.makeText(getContext() , msg, Toast.LENGTH_LONG).show();
     }
 }

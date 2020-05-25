@@ -4,9 +4,7 @@ public class ClientInformation {
 
     private static ClientInformation ourInstance = new ClientInformation();
 
-    private boolean darkMode = false, loginAnimation = false;
     private String token = "";
-    //private ArrayList<House> houseList = new ArrayList<>();
 
     public static ClientInformation getInstance() {
         return ourInstance;
@@ -25,11 +23,5 @@ public class ClientInformation {
         this.token = token;
     }
 
-    public boolean isLoginAnimation() {
-        return loginAnimation;
-    }
 
-    public void setLoginAnimation(boolean loginAnimation) {
-        this.loginAnimation = loginAnimation;
-    }
 }

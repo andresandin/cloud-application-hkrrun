@@ -2,17 +2,15 @@ package com.example.myapplication.server;
 
 public class ResponseLogin {
     private String token;
-    private String username;
-    private int result;
+    private int privilege;
 
     public ResponseLogin() {
-        this("","",0);
+        this("",0);
     }
 
-    public ResponseLogin(String token, String username, int result) {
+    public ResponseLogin(String token, int privilege) {
         this.token = token;
-        this.username = username;
-        this.result = result;
+        this.privilege = privilege;
     }
 
     public String getToken() {
@@ -23,19 +21,11 @@ public class ResponseLogin {
         this.token = token;
     }
 
-    public String getUsername() {
-        return username;
+    public int getPrivilege() {
+        return privilege;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getResult() {
-        return result;
-    }
-
-    public void setResult(int result) {
-        this.result = result;
+    public void setPrivilege(int privilege) {
+        this.privilege = privilege;
     }
 }

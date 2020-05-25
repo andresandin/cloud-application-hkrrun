@@ -1,15 +1,13 @@
 package com.example.myapplication.server;
 
-public class ResponseRegister {
+public class ResponseSaveWorkout {
 
     private String status;
     private String message;
 
-    public ResponseRegister() {
-        this("","");
-    }
+    public ResponseSaveWorkout(){this("", "");}
 
-    public ResponseRegister(String status, String message) {
+    public ResponseSaveWorkout(String status, String message) {
         this.status = status;
         this.message = message;
     }
