@@ -266,12 +266,13 @@ public class SensorActivity extends Fragment implements SensorEventListener {
     }
 
     private RequestSaveWorkout buildRequest(){
-        //return new RequestSaveWorkout(
-        //       Integer.parseInt(String.valueOf(actualSteps)),
-         //       saveTime);
+        int steps = (int) actualSteps;
+        return new RequestSaveWorkout(
+                // Integer.parseInt(String.valueOf(actualSteps)),
+                steps, saveTime);
 
         //For testing
-        return new RequestSaveWorkout(2000, "20:20");
+        //return new RequestSaveWorkout(2000, "20:20");
     }
 
     private void makeToast(String msg){

@@ -14,6 +14,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,9 +23,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.087"
-        android:gravity="center_horizontal"
-        android:padding="10dp"/>
+        app:layout_constraintVertical_bias="0.041" />
+
 
     <ImageView
         android:id="@+id/imageView2"

@@ -22,6 +22,7 @@
         tools:ignore="MissingConstraints"
         android:layout_marginStart="130dp"
         android:layout_marginLeft="130dp"
+        android:textColor="@color/menubg"
         android:padding="5dp"/>
 
     <EditText
@@ -61,6 +62,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordLN"
         android:padding="5dp"
+        android:textColor="@color/menubg"
         android:text="Log In"/>
 
     <Button
@@ -73,6 +75,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginBtnLN"
         android:padding="5dp"
+        android:textColor="@color/menubg"
         android:text="Register"/>
 
 

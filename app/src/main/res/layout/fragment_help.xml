@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.help.HelpFragment">
+    tools:context=".ui.help.HelpFragment"
+    >
 
     <TextView
         android:id="@+id/text_gallery"
@@ -17,6 +18,82 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:paddingTop="60dp"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="105dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/text_gallery"
+        android:text="Step 1: Go to the navigation bar on the left side. "/>
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="105dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/editText1"
+        android:text="Step 2: If you wish to start the run, choose 'Start run'."/>
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="105dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/editText2"
+        android:text="Step 3: Start by pressing the green button with the text START."/>
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="105dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/editText3"
+        android:text="Step 4: When you are done with your run or would like to take a break press the red button with the text STOP."/>
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="105dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/editText4"
+        android:text="Step 5: To save the run press the blue button with the text SAVE."/>
+    <EditText
+        android:id="@+id/editText6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="105dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/editText5"
+        android:text="Now your workout is saved."/>
 </androidx.constraintlayout.widget.ConstraintLayout>

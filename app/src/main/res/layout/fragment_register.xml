@@ -22,6 +22,7 @@
         tools:ignore="MissingConstraints"
         android:layout_marginStart="130dp"
         android:layout_marginLeft="130dp"
+        android:textColor="@color/menubg"
         android:padding="5dp"/>
 
     <EditText
@@ -83,6 +84,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/registerSsn"
         android:padding="5dp"
+        android:textColor="@color/menubg"
         android:text="Register"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
