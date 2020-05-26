@@ -78,6 +78,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         btn_start = (Button)v.findViewById(R.id.startBtn);
         btn_stop = (Button)v.findViewById(R.id.stopBtn);
         btn_save = (Button)v.findViewById(R.id.saveBtn);
+        btn_reset = (Button)v.findViewById(R.id.resetBtn);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -96,7 +97,6 @@ public class SensorActivity extends Fragment implements SensorEventListener {
             }
         });
 
-        btn_reset = (Button)v.findViewById(R.id.resetBtn);
         btn_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,7 +181,6 @@ public class SensorActivity extends Fragment implements SensorEventListener {
 
             if (running) {
 
-                //tv_steps.setText(String.valueOf(currentValue));
                 tv_distance.setText(String.valueOf(distance) + " km");
             }
             startButtonClicked = false;
@@ -189,9 +188,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         if (stopButtonClicked){
             newValue = event.values[0];
             actualSteps = newValue - currentValue;
-            startButtonClicked = false;
-
-
+            stopButtonClicked = false;
 
         }
     }
@@ -253,26 +250,22 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                     if( responseSaveWorkout.getStatus().equals("success")) {
                         Log.d(TAG, "onResponse: status: " + responseSaveWorkout.getStatus());
                         Log.d(TAG, "onResponse: message: " + responseSaveWorkout.getMessage());
-
-                        //Intent intent = new Intent(LogInFragment.this, MainActivity.class);
-
-                        //startActivity(intent);
                     }
                     else{
                         makeToast("save workout failed");
                         Log.d(TAG,response.toString());
                     }
                 }
-                else
+                else{
                     makeToast("save workout failed");
+                }
                 Log.d(TAG,response.toString());
-                //btnLock();
+
             }
 
             @Override
             public void onFailure(Call<ResponseSaveWorkout> call, Throwable t) {
                 makeToast(t.getMessage());
-                // btnLock();
             }
         });
     }

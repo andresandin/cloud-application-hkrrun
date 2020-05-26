@@ -20,8 +20,8 @@
         android:id="@+id/loginPage"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:ignore="MissingConstraints"
-        android:layout_marginStart="105dp"
-        android:layout_marginLeft="105dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
         android:padding="5dp"/>
 
     <EditText
@@ -29,8 +29,8 @@
         android:layout_height="50dp"
         android:id="@+id/userNameLN"
         android:hint="Username"
-        android:layout_marginStart="75dp"
-        android:layout_marginLeft="75dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
         android:padding="5dp"
         android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -42,10 +42,11 @@
         android:id="@+id/passwordLN"
         android:hint="Password"
         android:gravity="center"
-        android:layout_marginStart="75dp"
+        android:inputType="textPassword"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userNameLN"
-        android:layout_marginLeft="75dp"
         android:padding="5dp"/>
 
 
@@ -55,10 +56,10 @@
         android:layout_height="60dp"
         android:id="@+id/loginBtnLN"
         android:gravity="center"
-        android:layout_marginStart="75dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordLN"
-        android:layout_marginLeft="75dp"
         android:padding="5dp"
         android:text="Log In"/>
 
@@ -67,10 +68,10 @@
         android:layout_height="60dp"
         android:id="@+id/registerBtnLN"
         android:gravity="center"
-        android:layout_marginStart="75dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginBtnLN"
-        android:layout_marginLeft="75dp"
         android:padding="5dp"
         android:text="Register"/>
 

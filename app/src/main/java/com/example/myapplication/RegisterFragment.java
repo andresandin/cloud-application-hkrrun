@@ -30,13 +30,15 @@ import static com.example.myapplication.server.ServerData.BASE_URL;
 
 public class RegisterFragment extends AppCompatActivity {
 
+    //Used for logging
     private static final String TAG = "RegisterFragment";
-    
+
+    //UI Variables
     private EditText mUsername;
     private EditText mEmail;
     private EditText mPassword;
     private EditText mSsn;
-    private Button register;
+    private Button mRegister;
 
     private RestAPICommunication mRestApiCommunicator;
 
@@ -49,7 +51,7 @@ public class RegisterFragment extends AppCompatActivity {
         mPassword = findViewById(R.id.registerPassword);
         mEmail = findViewById(R.id.registerEmail);
         mSsn = findViewById(R.id.registerSsn);
-        register = findViewById(R.id.registerBtn);
+        mRegister = findViewById(R.id.registerBtn);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -57,7 +59,7 @@ public class RegisterFragment extends AppCompatActivity {
                 .build();
         mRestApiCommunicator = retrofit.create(RestAPICommunication.class);
 
-        register.setOnClickListener(new View.OnClickListener() {
+        mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(checkDataEntered()){
@@ -77,14 +79,19 @@ public class RegisterFragment extends AppCompatActivity {
         return TextUtils.isEmpty(str);
     }
 
+    private boolean isNumber(EditText text){
+        CharSequence str = text.getText().toString();
+        return TextUtils.isDigitsOnly(str);
+    }
+
     private boolean checkDataEntered() {
         if (isEmpty(mUsername)) {
-            mUsername.setError("First name is required!");
+            mUsername.setError("Username is required!");
             return false;
         }
 
         if (isEmpty(mPassword)) {
-            mPassword.setError("Last name is required!");
+            mPassword.setError("Password is required!");
             return false;
         }
 
@@ -94,7 +101,11 @@ public class RegisterFragment extends AppCompatActivity {
         }
 
         if (isEmpty(mSsn)) {
-            mSsn.setError("Enter a password!");
+            mSsn.setError("Enter your SSN!");
+            return false;
+        }
+        if(!isNumber(mSsn)){
+            mSsn.setError("Enter SSN (10 digits)");
             return false;
         }
         return true;
@@ -112,25 +123,24 @@ public class RegisterFragment extends AppCompatActivity {
                         Log.d(TAG, "onResponse: status: " + responseRegister.getStatus());
                         Log.d(TAG, "onResponse: message: " + responseRegister.getMessage());
 
-                        //Intent intent = new Intent(LogInFragment.this, MainActivity.class);
-
-                        //startActivity(intent);
+                        //Go back to login fragment
+                        Intent intent = new Intent(RegisterFragment.this, LogInFragment.class);
+                        startActivity(intent);
                     }
                     else{
                         makeToast("register failed");
                         Log.d(TAG,response.toString());
                     }
                 }
-                else
+                else {
                     makeToast("register failed");
+                }
                 Log.d(TAG,response.toString());
-                //btnLock();
             }
 
             @Override
             public void onFailure(Call<ResponseRegister> call, Throwable t) {
                 makeToast(t.getMessage());
-                // btnLock();
             }
         });
     }

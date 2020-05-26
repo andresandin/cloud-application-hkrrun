@@ -32,13 +32,16 @@ import static com.example.myapplication.server.ServerData.BASE_URL;
 
 public class LogInFragment extends AppCompatActivity {
 
+    //Used for logging
     private static final String TAG = "LogInFragment";
 
-    private EditText username;
-    private EditText password;
-    private Button login;
-    private Button register;
+    //UI variables
+    private EditText mUsername;
+    private EditText mPassword;
+    private Button mLogin;
+    private Button mRegister;
 
+    //Used for communication with the REST API
     private RestAPICommunication mRestApiCommunicator;
 
     @Override
@@ -46,10 +49,10 @@ public class LogInFragment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_login);
 
-        username = findViewById(R.id.userNameLN);
-        password = findViewById(R.id.passwordLN);
-        login = findViewById(R.id.loginBtnLN);
-        register = findViewById(R.id.registerBtnLN);
+        mUsername = findViewById(R.id.userNameLN);
+        mPassword = findViewById(R.id.passwordLN);
+        mLogin = findViewById(R.id.loginBtnLN);
+        mRegister = findViewById(R.id.registerBtnLN);
 
         setupListeners();
 
@@ -70,15 +73,18 @@ public class LogInFragment extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        login.setOnClickListener(new View.OnClickListener() {
+        mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //checkUsername();
-                login();
+                if(checkUsername()){
+                    login();
+                }else{
+                    makeToast("Input was not correct!");
+                }
             }
         });
 
-        register.setOnClickListener(new View.OnClickListener() {
+        mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LogInFragment.this, RegisterFragment.class);
@@ -103,73 +109,41 @@ public class LogInFragment extends AppCompatActivity {
                         //Set token to singleton!
                         ClientInformation.getInstance().setToken("Bearer " + responseLogin.getToken());
 
+                        //Start main activity
                         Intent intent = new Intent(LogInFragment.this, MainActivity.class);
-
                         startActivity(intent);
-                    }
-                    else{
+
+                    } else {
                         makeToast("login failed");
                         Log.d(TAG,response.toString());
                     }
-                }
-                else
+
+                }else {
                     makeToast("login failed");
-                Log.d(TAG,response.toString());
-                //btnLock();
+                }
+                Log.d(TAG, response.toString());
             }
 
             @Override
             public void onFailure(Call<ResponseLogin> call, Throwable t) {
                 makeToast(t.getMessage());
-               // btnLock();
             }
         });
     }
 
-    void checkUsername() {
+    private boolean checkUsername() {
         boolean isValid = true;
-        if (isEmpty(username)) {
-            username.setError("You must enter username to login!");
+        if (isEmpty(mUsername)) {
+            mUsername.setError("You must enter username to login!");
             isValid = false;
-        } else {
-            if (isEmpty(username)) { //!isEmail
-                username.setError("Enter valid email!");
-                isValid = false;
-            }
         }
 
-        if (isEmpty(password)) {
-            password.setError("You must enter password to login!");
+        if (isEmpty(mPassword)) {
+            mPassword.setError("You must enter password to login!");
             isValid = false;
-        } else {
-            if (password.getText().toString().length() < 1) {
-                password.setError("Password must be at least 4 chars long!");
-                isValid = false;
-            }
         }
 
-        //check email and password
-        //IMPORTANT: here should be call to backend or safer function for local check; For example simple check is cool
-        //For example simple check is cool
-        if (isValid) {
-            String usernameValue = username.getText().toString();
-            String passwordValue = password.getText().toString();
-            if (usernameValue.equals("a") && passwordValue.equals("a")) {
-                //everything checked we open new activity
-                Intent i = new Intent(LogInFragment.this, MainActivity.class);
-                startActivity(i);
-                //we close this activity
-                this.finish();
-            } else {
-                Toast t = Toast.makeText(this, "Wrong email or password!", Toast.LENGTH_SHORT);
-                t.show();
-            }
-        }
-    }
-
-    boolean isEmail(EditText text) {
-        CharSequence email = text.getText().toString();
-        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        return isValid;
     }
 
     boolean isEmpty(EditText text) {
@@ -179,8 +153,8 @@ public class LogInFragment extends AppCompatActivity {
 
     private RequestLogin buildRequest(){
         return new RequestLogin(
-                username.getText().toString(),
-                password.getText().toString());
+                mUsername.getText().toString(),
+                mPassword.getText().toString());
     }
 
     private void makeToast(String msg){

@@ -12,28 +12,13 @@
         tools:layout="@layout/fragment_sensor">
 
     </fragment>
+
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.myapplication.ui.crew.CrewFragment"
         android:label="@string/menu_crew"
         tools:layout="@layout/fragment_crew">
 
-        <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_home_second" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_home_second"
-        android:name="com.example.myapplication.ui.crew.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
-        <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
-
-        <argument
-            android:name="myArg"
-            app:argType="string" />
     </fragment>
 
     <fragment
@@ -41,6 +26,12 @@
         android:name="com.example.myapplication.ui.help.HelpFragment"
         android:label="@string/menu_help"
         tools:layout="@layout/fragment_help" />
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.myapplication.LogoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/fragment_logout" />
 
 
 </navigation>
