@@ -57,8 +57,6 @@ public class SensorActivity extends Fragment implements SensorEventListener {
     private boolean isRun;
     private boolean wasRun;
     private float currentValue, newValue, actualSteps;
-    private boolean startButtonClicked = false;
-    private boolean stopButtonClicked = false;
     private String saveTime;
 
     private long steps = 0;
@@ -95,7 +93,6 @@ public class SensorActivity extends Fragment implements SensorEventListener {
             @Override
             public void onClick(View v) {
                 getNewSteps();
-                stopButtonClicked = true;
                 isRun = false;
                 sensorManager.unregisterListener(SensorActivity.this);
                 actualSteps = newValue - currentValue;
@@ -116,7 +113,6 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startButtonClicked = true;
                 isRun = true;
                 running = true;
                 Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -179,43 +175,16 @@ public class SensorActivity extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
-       /* if (startButtonClicked) {
-
-            currentValue = event.values[0];
-            System.out.println("CURRENT VALUE: " + currentValue);
-
-            float distance = (float) (currentValue * 78) / (float) 100000;
-
-            if (running) {
-
-                tv_distance.setText(String.valueOf(distance) + " km");
-            }
-            startButtonClicked = false;
-        }
-        if (stopButtonClicked){
-            newValue = event.values[0];
-            System.out.println("NEW VALUE: " + newValue);
-            actualSteps = newValue - currentValue;
-            stopButtonClicked = false;
-
-        }*/
        steps++;
-
-
-
-
     }
 
     public void getCurrentSteps(){
-
-            currentValue = steps;
+        currentValue = steps;
         System.out.println("CURRENT VALUE: " + currentValue);
     }
 
     public void getNewSteps(){
-
-            newValue = steps;
+        newValue = steps;
         System.out.println("NEW VALUE: " + newValue);
     }
 
