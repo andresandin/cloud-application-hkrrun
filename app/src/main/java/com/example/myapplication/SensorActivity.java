@@ -176,6 +176,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         if (startButtonClicked) {
 
             currentValue = event.values[0];
+            System.out.println("CURRENT VALUE: " + currentValue);
 
             float distance = (float) (currentValue * 78) / (float) 100000;
 
@@ -187,6 +188,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         }
         if (stopButtonClicked){
             newValue = event.values[0];
+            System.out.println("NEW VALUE: " + newValue);
             actualSteps = newValue - currentValue;
             stopButtonClicked = false;
 
