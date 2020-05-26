@@ -61,6 +61,8 @@ public class SensorActivity extends Fragment implements SensorEventListener {
     private boolean stopButtonClicked = false;
     private String saveTime;
 
+    private long steps = 0;
+
 
     private double MagnitudePrevious = 0;
     private Integer stepCount = 0;
@@ -86,14 +88,17 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                 .build();
         mRestApiCommunicator = retrofit.create(RestAPICommunication.class);
 
+        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+
         wasRun = isRun;
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getNewSteps();
                 stopButtonClicked = true;
                 isRun = false;
                 sensorManager.unregisterListener(SensorActivity.this);
-
+                actualSteps = newValue - currentValue;
             }
         });
 
@@ -122,6 +127,8 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                     //  sensorManager.registerListener(SensorActivity.this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
                     //Toast.makeText(this, "Sensor not found", Toast.LENGTH_SHORT).show();
                 }
+
+                getCurrentSteps();
             }
         });
 
@@ -135,7 +142,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
             }
         });
 
-        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+
 
         if (savedInstanceState != null) {
 
@@ -173,7 +180,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if (startButtonClicked) {
+       /* if (startButtonClicked) {
 
             currentValue = event.values[0];
             System.out.println("CURRENT VALUE: " + currentValue);
@@ -192,7 +199,24 @@ public class SensorActivity extends Fragment implements SensorEventListener {
             actualSteps = newValue - currentValue;
             stopButtonClicked = false;
 
-        }
+        }*/
+       steps++;
+
+
+
+
+    }
+
+    public void getCurrentSteps(){
+
+            currentValue = steps;
+        System.out.println("CURRENT VALUE: " + currentValue);
+    }
+
+    public void getNewSteps(){
+
+            newValue = steps;
+        System.out.println("NEW VALUE: " + newValue);
     }
 
     @Override
