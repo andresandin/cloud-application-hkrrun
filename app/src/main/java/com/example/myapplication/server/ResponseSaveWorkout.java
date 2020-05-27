@@ -4,12 +4,14 @@ public class ResponseSaveWorkout {
 
     private String status;
     private String message;
+    private float distance;
 
-    public ResponseSaveWorkout(){this("", "");}
+    public ResponseSaveWorkout(){this("", "", 0);}
 
-    public ResponseSaveWorkout(String status, String message) {
+    public ResponseSaveWorkout(String status, String message, float distance) {
         this.status = status;
         this.message = message;
+        this.distance = distance;
     }
 
     public String getStatus() {
@@ -26,5 +28,13 @@ public class ResponseSaveWorkout {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
     }
 }

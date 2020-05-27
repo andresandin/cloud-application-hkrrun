@@ -245,6 +245,9 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                     if( responseSaveWorkout.getStatus().equals("success")) {
                         Log.d(TAG, "onResponse: status: " + responseSaveWorkout.getStatus());
                         Log.d(TAG, "onResponse: message: " + responseSaveWorkout.getMessage());
+                        Log.d(TAG, "onResponse: distance " + responseSaveWorkout.getDistance());
+
+                        tv_distance.setText(String.valueOf(responseSaveWorkout.getDistance()));
                     }
                     else{
                         makeToast("save workout failed");
@@ -267,9 +270,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
 
     private RequestSaveWorkout buildRequest(){
         int steps = (int) actualSteps;
-        return new RequestSaveWorkout(
-                // Integer.parseInt(String.valueOf(actualSteps)),
-                steps, saveTime);
+        return new RequestSaveWorkout(steps, saveTime);
 
         //For testing
         //return new RequestSaveWorkout(2000, "20:20");
