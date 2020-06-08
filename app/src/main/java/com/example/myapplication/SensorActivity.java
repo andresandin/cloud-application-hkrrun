@@ -104,6 +104,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
             public void onClick(View v) {
                 isRun = false;
                 seconds = 0;
+                steps = 0;
                 tv_steps.setText("0");
                 tv_distance.setText("0");
                 sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
