@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,10 +39,13 @@ import static com.example.myapplication.server.ServerData.BASE_URL;
 
 import java.util.Locale;
 
+// SensorActivity is the class that utilizes the sensors of the device to make it possible to calculate the steps and distance for our application.
+
 public class SensorActivity extends Fragment implements SensorEventListener {
 
     private static final String TAG = "SensorActivity";
-    
+
+    //UI variables
     private TextView tv_steps;
     private TextView tv_distance;
     private TextView tv_timer;
@@ -50,21 +54,25 @@ public class SensorActivity extends Fragment implements SensorEventListener {
     private Button btn_reset;
     private Button btn_save;
 
+    //Sensormanager that let us access the devices sensors
     private SensorManager sensorManager;
 
+    //variables
     private boolean running = false;
     private int seconds = 0;
     private boolean isRun;
     private boolean wasRun;
     private float currentValue, newValue, actualSteps;
     private String saveTime;
-
     private long steps = 0;
 
+    //Implemented for the demo, visual effect of a button thats being clicked
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     private double MagnitudePrevious = 0;
     private Integer stepCount = 0;
 
+    //Used for communication with the REST API
     private RestAPICommunication mRestApiCommunicator;
 
     @Nullable
@@ -89,9 +97,13 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
 
         wasRun = isRun;
+
+        //When button stop is pressed the sensor is inactivated with unregisterlistener
+        //to stop count the steps
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
                 getNewSteps();
                 isRun = false;
                 sensorManager.unregisterListener(SensorActivity.this);
@@ -99,9 +111,11 @@ public class SensorActivity extends Fragment implements SensorEventListener {
             }
         });
 
+        //Resets the values before a new workout
         btn_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
                 isRun = false;
                 seconds = 0;
                 steps = 0;
@@ -111,9 +125,12 @@ public class SensorActivity extends Fragment implements SensorEventListener {
             }
         });
 
+        //When button start is pressed the sensormanager is activated with registerlistener
+        //to start the sensorprocess and in this case its stepcounter
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
                 isRun = true;
                 running = true;
                 Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -129,9 +146,11 @@ public class SensorActivity extends Fragment implements SensorEventListener {
             }
         });
 
+        //When the workout is done the save button is pressed to save the workout
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
                 tv_steps.setText(String.valueOf(actualSteps));
                 System.out.println(actualSteps);
                 System.out.println();
@@ -179,6 +198,8 @@ public class SensorActivity extends Fragment implements SensorEventListener {
        steps++;
     }
 
+    //getCurrentSteps and getNewSteps are methods for resetting the number of steps from the sensor for every new workout
+
     public void getCurrentSteps(){
         currentValue = steps;
         System.out.println("CURRENT VALUE: " + currentValue);
@@ -205,6 +226,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
                 .putBoolean("wasRunning", wasRun);
     }
 
+    //This method handles the timer that gives us the time for the entire workout from start to stop
     private void runTimer()
     {
         final Handler handler
@@ -235,6 +257,7 @@ public class SensorActivity extends Fragment implements SensorEventListener {
         });
     }
 
+    //The saveWorkout method saves the workout that has been done and pushes it to the cloud.
     private void saveWorkout(){
         Call<ResponseSaveWorkout> call = mRestApiCommunicator.saveWorkout(
                 buildRequest(), ClientInformation.getInstance().getToken());

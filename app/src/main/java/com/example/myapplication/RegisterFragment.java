@@ -28,6 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.myapplication.server.ServerData.BASE_URL;
 
+//RegisterFragment is the class where the accounts are being created
+
 public class RegisterFragment extends AppCompatActivity {
 
     //Used for logging
@@ -40,6 +42,7 @@ public class RegisterFragment extends AppCompatActivity {
     private EditText mSsn;
     private Button mRegister;
 
+    //Used for communication with the REST API
     private RestAPICommunication mRestApiCommunicator;
 
     @Override
@@ -69,6 +72,7 @@ public class RegisterFragment extends AppCompatActivity {
         });
     }
 
+    //Methods for error-handling, correct format for email, checks that nothing is empty but also that the format is correct
     private boolean isEmail(EditText text) {
         CharSequence email = text.getText().toString();
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
@@ -110,6 +114,8 @@ public class RegisterFragment extends AppCompatActivity {
         }
         return true;
     }
+
+    //If everything is done correct the user is registered
 
     private void register(){
         Call<ResponseRegister> call = mRestApiCommunicator.registerUser(
